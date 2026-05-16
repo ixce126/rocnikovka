@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galéria Optických Ilúzií</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #BB86FC;
+            --secondary-color: #03DAC6;
+            --dark-bg-color: #121212;
+            --card-bg-color: #1E1E1E;
+            --text-color: #E0E0E0;
+            --light-text-color: #B0B0B0;
+            --accent-color: #CF6679;
+            --white-color: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--dark-bg-color);
+        }
+
+        .container {
+            max-width: 1000px; /* Zúžené pre lepšie zobrazenie obdĺžnikov */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigácia */
+        .navbar {
+            background-color: var(--card-bg-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .navbar .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar .nav-links li {
+            margin-left: 30px;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: var(--light-text-color);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hlavička galérie */
+        .gallery-header {
+            padding: 80px 0 50px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--dark-bg-color) 0%, #2a003a 100%);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .gallery-header h1 {
+            font-size: 3.5em;
+            color: var(--white-color);
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+        }
+
+        .gallery-header p {
+            font-size: 1.2em;
+            color: var(--light-text-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Karty ilúzií (Obdĺžniky) */
+        .illusions-list {
+            padding: 60px 0;
+        }
+
+        .illusion-card {
+            background-color: var(--card-bg-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 60px; /* Medzera medzi jednotlivými typmi */
+        }
+
+        .illusion-info {
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .illusion-info h3 {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .illusion-info p {
+            font-size: 1.1em;
+            color: var(--light-text-color);
+            margin-bottom: 0;
+        }
+
+        /* Lokálny Slider pre každú kartu */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            background-color: #000;
+            height: 450px;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            animation: fadeEffect 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeEffect {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Šípky */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto;
+            padding: 16px 20px;
+            color: var(--white-color);
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            z-index: 10;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: var(--primary-color);
+            color: var(--dark-bg-color);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--card-bg-color);
+            color: var(--light-text-color);
+            padding: 60px 0;
+            text-align: center;
+            font-size: 0.95em;
+            border-top: 1px solid var(--dark-bg-color);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+        }
+
+        .footer .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        /* Responzívny dizajn */
+        @media (max-width: 768px) {
+            .gallery-header h1 { font-size: 2.5em; }
+            .slider-container { height: 300px; }
+            .illusion-info h3 { font-size: 1.8em; }
+            .navbar .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Ilúzie</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Domov</a></li>
+                <li><a href="index.html#co-su-iluzie">Čo sú optické ilúzie</a></li>
+                <li><a href="index.html#typy-iluzii">Typy ilúzií</a></li>
+                <li><a href="galeria.html">Galéria</a></li>
+                <li><a href="ako-funguju.html">Ako fungujú</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="gallery-header">
+        <div class="container">
+            <h1>Galéria Ilúzií</h1>
+            <p>Prechádzajte jednotlivými typmi ilúzií. Každá sekcia obsahuje viacero ukážok – použite šípky pre listovanie.</p>
+        </div>
+    </header>
+
+    <section class="illusions-list">
+        <div class="container">
+
+            <div class="illusion-card">
+                <div class="illusion-info">
+                    <h3>Müller-Lyerova ilúzia</h3>
+                    <p>Dve zdanlivo rôzne dlhé čiary.</p>
+                </div>
+                <div class="slider-container">
+                    <button class="prev" onclick="zmenSnimku(this, -1)">&#10094;</button>
+                    <button class="next" onclick="zmenSnimku(this, 1)">&#10095;</button>
+                    <div class="slide active"><img src="https://sciam.bynder.com/m/299f8a210f3d8098/original/mu-ller-lyer-illusion_graphic_d_TEXT.png" alt="Müller-Lyer 1"></div>
+                    <div class="slide"><img src="https://www.verywellmind.com/thmb/pWc8H7wQdb9YX9rRAxNezWmeHbM=/4000x0/filters:no_upscale():max_bytes(150000):strip_icc()/muller-lyer-illusion-5672bd393df78ccc15f7d08d.jpg" alt="Müller-Lyer 2"></div>
+                    <div class="slide"><img src="https://www.giannisarcone.com/3-MEDIA_Images/Dynamic_muller_lyer2B.gif" alt="Müller-Lyer 3"></div>
+                </div>
+            </div>
+
+            <div class="illusion-card">
+                <div class="illusion-info">
+                    <h3>Rotujúce hady</h3>
+                    <p>Statické vzory, ktoré sa zdajú byť v pohybe.</p>
+                </div>
+                <div class="slider-container">
+                    <button class="prev" onclick="zmenSnimku(this, -1)">&#10094;</button>
+                    <button class="next" onclick="zmenSnimku(this, 1)">&#10095;</button>
+                    <div class="slide active"><img src="https://www.syfy.com/sites/syfy/files/styles/scale_862/public/kitaoka_rotating_snakes.jpg" alt="Hady 1"></div>
+                    <div class="slide"><img src="https://www.syfy.com/sites/syfy/files/styles/scale_1280/public/rotatingsnakes_simple.jpg" alt="Hady 2"></div>
+                    <div class="slide"><img src="https://media.npr.org/assets/img/2014/03/24/color-rotsnake_custom-f5465210f04e30430602adf7e87083c1813df8f1.gif" alt="Hady 3"></div>
+                </div>
+            </div>
+
+            <div class="illusion-card">
+                <div class="illusion-info">
+                    <h3>Checker Shadow Ilúzia</h3>
+                    <p>Štvorce rovnakej farby v rôznych odtieňoch.</p>
+                </div>
+                <div class="slider-container">
+                    <button class="prev" onclick="zmenSnimku(this, -1)">&#10094;</button>
+                    <button class="next" onclick="zmenSnimku(this, 1)">&#10095;</button>
+                    <div class="slide active"><img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Checker_shadow_illusion.svg" alt="Checker 1"></div>
+                    <div class="slide"><img src="https://miro.medium.com/v2/resize:fit:1400/1*J4gh9x-fbKHjc9bLTArsEQ@2x.jpeg" alt="Checker 2"></div>
+                    <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiDSHRX31gliOXDql3yGJqWtgJ31AqxcT8Ug&s" alt="Checker 3"></div>
+                </div>
+            </div>
+
+            <div class="illusion-card">
+                <div class="illusion-info">
+                    <h3>Nemožný trojuholník</h3>
+                    <p>Objekt, ktorý nemôže existovať v realite.</p>
+                </div>
+                <div class="slider-container">
+                    <button class="prev" onclick="zmenSnimku(this, -1)">&#10094;</button>
+                    <button class="next" onclick="zmenSnimku(this, 1)">&#10095;</button>
+                    <div class="slide active"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Penrose-dreieck.svg" alt="Nemožný 1"></div>
+                    <div class="slide"><img src="https://cdn.vectorstock.com/i/1000v/25/75/impossible-triangle-shape-optical-visual-illusion-vector-49492575.jpg" alt="Nemožný 2"></div>
+                    <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDZwmcVI_jYLFtOTKEEz8101CRSwzIShzc5g&s" alt="Nemožný 3"></div>
+                </div>
+            </div>
+
+            <div class="illusion-card">
+                <div class="illusion-info">
+                    <h3>Kanizsov trojuholník</h3>
+                    <p>Biely trojuholník viditeľný bez ohraničenia.</p>
+                </div>
+                <div class="slider-container">
+                    <button class="prev" onclick="zmenSnimku(this, -1)">&#10094;</button>
+                    <button class="next" onclick="zmenSnimku(this, 1)">&#10095;</button>
+                    <div class="slide active"><img src="https://www.cut-the-throat.org/Curriculum/Geometry/KanizsaTriangle.jpg" alt="Kanizsa 1" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/5/55/Kanizsa_triangle.svg'"></div>
+                    <div class="slide"><img src="https://a.storyblok.com/f/253271/214x216/f26b807b0c/45_kanizsa_fig1.png" alt="Kanizsa 2"></div>
+                    <div class="slide"><img src="https://images.fineartamerica.com/images-medium-large/kanizsa-triangle-.jpg" alt="Kanizsa 3"></div>
+                </div>
+            </div>
+
+            <div class="illusion-card">
+                <div class="illusion-info">
+                    <h3>Ponzo ilúzia</h3>
+                    <p>Rovnaké objekty, ktoré sa javia ako rôzne veľké.</p>
+                </div>
+                <div class="slider-container">
+                    <button class="prev" onclick="zmenSnimku(this, -1)">&#10094;</button>
+                    <button class="next" onclick="zmenSnimku(this, 1)">&#10095;</button>
+                    <div class="slide active"><img src="https://www.nationalworld.com/jpim-static/image/2023/06/14/16/NWLD-composite-illusion-km.jpg?width=1200&enable=upscale" alt="Ponzo 1"></div>
+                    <div class="slide"><img src="https://www.shutterstock.com/image-vector/ponzo-illusion-vector-graphic-optical-600w-2525569311.jpg" alt="Ponzo 2"></div>
+                    <div class="slide"><img src="https://www.appstate.edu/~steelekm/classes/psy3203/ponzo.gif" alt="Ponzo 3"></div>
+                </div>
+            </div>
+
+            <div class="illusion-card">
+                <div class="illusion-info">
+                    <h3>Rubinova váza</h3>
+                    <p>Vnímanie dvoch tvárí alebo vázy.</p>
+                </div>
+                <div class="slider-container">
+                    <button class="prev" onclick="zmenSnimku(this, -1)">&#10094;</button>
+                    <button class="next" onclick="zmenSnimku(this, 1)">&#10095;</button>
+                    <div class="slide active"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZIJIaILX6xHWeHihuE6ufSgUlYF_Ha77mHg&s" alt="Rubin 1"></div>
+                    <div class="slide"><img src="https://www.digitalfieldguide.com/wp-content/uploads/2021/11/Vase-or-Profile-Inversion.jpg" alt="Rubin 2"></div>
+                    <div class="slide"><img src="https://media.istockphoto.com/id/999160012/vector/rubin-vase-optical-illusion.jpg?s=612x612&w=0&k=20&c=bdApQjBFlNWYJjPaiZ6xQDVWIEffwKeCB-xjBgiFRFA=" alt="Rubin 3"></div>
+                </div>
+            </div>
+
+            <div class="illusion-card">
+                <div class="illusion-info">
+                    <h3>Zöllnerova ilúzia</h3>
+                    <p>Rovnobežné čiary, ktoré sa zdajú byť šikmé.</p>
+                </div>
+                <div class="slider-container">
+                    <button class="prev" onclick="zmenSnimku(this, -1)">&#10094;</button>
+                    <button class="next" onclick="zmenSnimku(this, 1)">&#10095;</button>
+                    <div class="slide active"><img src="https://www.cut-the-knot.org/Curriculum/Geometry/ZolnerIllusion.jpg" alt="Zöllner 1"></div>
+                    <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUPaQVco5EfVOH-Qwkn2i5v1XtQ_toknEJpQ&s" alt="Zöllner 2"></div>
+                    <div class="slide"><img src="https://www.abc-people.com/illusion/classic-6-5.gif" alt="Zöllner 3"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Roman Vávra IV. KB</p>
+            <p>Škola: SG Futurum</p>
+        </div>
+    </footer>
+
+    <script>
+        function zmenSnimku(tlacidlo, krok) {
+            const sliderContainer = tlacidlo.parentElement;
+            const snimky = sliderContainer.querySelectorAll('.slide');
+            
+            let aktivnyIndex = 0;
+
+            snimky.forEach((snimka, index) => {
+                if (snimka.classList.contains('active')) {
+                    aktivnyIndex = index;
+                    snimka.classList.remove('active');
+                }
+            });
+
+            aktivnyIndex += krok;
+            if (aktivnyIndex >= snimky.length) {
+                aktivnyIndex = 0;
+            } else if (aktivnyIndex < 0) {
+                aktivnyIndex = snimky.length - 1;
+            }
+
+            snimky[aktivnyIndex].classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
