@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ako Fungujú Optické Ilúzie?</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #BB86FC;
+            --secondary-color: #03DAC6;
+            --dark-bg-color: #121212;
+            --card-bg-color: #1E1E1E;
+            --text-color: #E0E0E0;
+            --light-text-color: #B0B0B0;
+            --accent-color: #CF6679;
+            --white-color: #FFFFFF;
+        }
+
+        /* PLYNULÉ SCROLLOVANIE */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--dark-bg-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigácia */
+        .navbar {
+            background-color: var(--card-bg-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .navbar .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar .nav-links li {
+            margin-left: 30px;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: var(--light-text-color);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* How It Works Header */
+        .how-it-works-header {
+            padding: 100px 0 60px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--dark-bg-color) 0%, #2a003a 100%);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .how-it-works-header h1 {
+            font-size: 4em;
+            color: var(--white-color);
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+        }
+
+        .how-it-works-header p {
+            font-size: 1.2em;
+            color: var(--light-text-color);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 80px 0;
+            text-align: center;
+            background-color: var(--dark-bg-color);
+        }
+        .section:nth-of-type(even) {
+            background-color: var(--card-bg-color);
+        }
+
+        .section h2 {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+        .section h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background-color: var(--secondary-color);
+            border-radius: 3px;
+        }
+        .section h3 {
+            font-size: 2.2em;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+        .section p {
+            font-size: 1.1em;
+            color: var(--light-text-color);
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+        }
+        .section ul {
+            list-style: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            text-align: left;
+        }
+        .section ul li {
+            background-color: var(--card-bg-color);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 20px 30px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-size: 1.05em;
+            color: var(--text-color);
+            position: relative;
+            padding-left: 50px;
+        }
+        .section ul li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        .section ul li::before {
+            content: "•";
+            color: var(--primary-color);
+            font-size: 2em;
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            line-height: 0;
+        }
+
+        /* OPRAVA OBRÁZKOV - Vymazané prázdne miesta */
+        .how-it-works-image {
+            width: 100%;
+            max-width: 900px; /* Zladené s maximálnou šírkou textu */
+            height: auto; /* Dovoľuje obrázku rásť podľa vlastných proporcií */
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            margin-top: 30px;
+            border: 2px solid var(--secondary-color);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--card-bg-color);
+            color: var(--light-text-color);
+            padding: 60px 0;
+            text-align: center;
+            font-size: 0.95em;
+            border-top: 1px solid var(--dark-bg-color);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+        }
+
+        .footer .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responzívny dizajn */
+        @media (max-width: 992px) {
+            .navbar .nav-links {
+                display: none;
+            }
+            .how-it-works-header h1 {
+                font-size: 3em;
+            }
+            .section h2 {
+                font-size: 2.5em;
+            }
+            .section h3 {
+                font-size: 1.8em;
+            }
+        }
+        @media (max-width: 576px) {
+            .how-it-works-header h1 {
+                font-size: 2.5em;
+            }
+            .section h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Ilúzie</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Domov</a></li>
+                <li><a href="index.html#co-su-iluzie">Čo sú optické ilúzie</a></li>
+                <li><a href="index.html#typy-iluzii">Typy ilúzií</a></li>
+                <li><a href="galeria.html">Galéria</a></li>
+                <li><a href="ako-funguju.html">Ako fungujú</a></li>
+                <li><a href="anketa.html">Anketa</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="how-it-works-header">
+        <div class="container">
+            <h1>Ako Fungujú Optické Ilúzie?</h1>
+            <p>Pochopte vedu a psychológiu, ktorá stojí za fascinujúcimi optickými ilúziami. Zistite, ako náš mozog interpretuje vizuálne informácie a prečo sa niekedy mýli.</p>
+        </div>
+    </header>
+
+    <section id="uvod" class="section">
+        <div class="container">
+            <h2>Veda za Klamom</h2>
+            <p>Optické ilúzie nie sú len zábavné obrázky, ale aj mocný nástroj na pochopenie fungovania ľudského mozgu a zmyslového vnímania. V podstate ide o "chyby" vo vizuálnom systéme, ktoré vznikajú, keď mozog spracováva a interpretuje informácie z očí.</p>
+            <ul>
+                <li><strong>Interpretácia mozgu:</strong> Mozog sa neustále snaží dávať zmysel svetu okolo nás. Používa skratky, predpoklady a predchádzajúce skúsenosti na rýchle spracovanie vizuálnych dát.</li>
+                <li><strong>Spracovanie zmyslov:</strong> Informácie z očí (farba, tvar, pohyb, hĺbka) prechádzajú komplexným procesom v mozgu. Ilúzie často vznikajú, keď sa tieto procesy dostanú do konfliktu.</li>
+                <li><strong>Percepčné konštanty:</strong> Náš mozog sa snaží udržiavať konštantné vnímanie objektov (napríklad farby alebo veľkosti), aj keď sa svetelné podmienky alebo vzdialenosť menia. Ilúzie tento systém zneužívajú.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="geometricke" class="section">
+        <div class="container">
+            <h2>Geometrické ilúzie</h2>
+            <p>Tieto ilúzie manipulujú s vnímaním veľkosti, dĺžky, tvarov a uhlov. Často využívajú perspektívu, okolité prvky alebo usporiadanie čiar, aby oklamali naše oči.</p>
+            <img src="https://how-emotions-are-made.com/w/images/heam/b/b7/M%C3%BCller-Lyer_illusion.png" alt="Müller-Lyerova ilúzia vysvetlenie" class="how-it-works-image">
+            <p>Príkladom je Müller-Lyerova ilúzia, kde dve rovnako dlhé čiary vyzerajú inak kvôli smeru šípok na ich koncoch. Mozog sa snaží interpretovať čiary ako trojrozmerné objekty a šípky mu napovedajú, či ide o vnútorný alebo vonkajší roh.</p>
+        </div>
+    </section>
+
+    <section id="pohybove" class="section">
+        <div class="container">
+            <h2>Pohybové ilúzie</h2>
+            <p>Napriek tomu, že obrázky sú statické, niektoré vzory a farby dokážu vytvoriť dojem pohybu. Je to spôsobené spôsobom, akým neuróny v našom zrakovom kortexe reagujú na kontrast a striedanie farieb a jasu.</p>
+            <img src="https://w0.peakpx.com/wallpaper/957/389/HD-wallpaper-moving-snakes-snakes-optical-illusion-moving-circles-illusion.jpg" alt="Rotujúce hady vysvetlenie" class="how-it-works-image">
+            <p>Ilúzia "Rotujúce hady" je výborný príklad. Mimovoľné pohyby očí and pomalá neurálna odozva na kontrastné okraje vedú k tomu, že kruhy sa zdajú rotovať.</p>
+        </div>
+    </section>
+
+    <section id="farebne" class="section">
+        <div class="container">
+            <h2>Farebné ilúzie</h2>
+            <p>Farba, ktorú vnímame, nie je absolútna. Je silne ovplyvnená okolitými farbami, jasom a kontextom. Mozog neustále kalibruje farby na záklase svojho okolia.</p>
+            <img src="https://img.jagranjosh.com/images/2025/09/25/article/image/checker-shadow-illusion-iq-test-optical-illusions-with-answer-1758782368107.webp" alt="Checker Shadow Ilúzia vysvetlenie" class="how-it-works-image">
+            <p>Slávna "Checker Shadow Ilúzia" ukazuje, ako dva štvorce rovnakej farby vyzerajú rozdielne. Mozog berie do úvahy tieň a okolitú svetlosť, aby určil farbu, čo vedie k nesprávnemu vnímaniu.</p>
+        </div>
+    </section>
+
+    <section id="nemozne" class="section">
+        <div class="container">
+            <h2>Nemožné objekty</h2>
+            <p>Tieto ilúzie predstavujú objekty, ktoré by v trojrozmernom svete nemohli existovať. Využívajú hru s perspektívou a hĺbkou, aby vytvorili vizuálnu paradoxnosť.</p>
+            <img src="https://easydrawingguides.com/wp-content/uploads/2018/09/Impossible-Triangle-10.png" alt="Nemožný trojuholník vysvetlenie" class="how-it-works-image">
+            <p>Nemožný trojuholník, známy aj ako Penroseov trojuholník, je príkladom takéhoto objektu. Každá jeho časť sa zdá byť v poriadku, ale celok je logicky nemožný.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Roman Vávra IV.KB, Dávid Opina IV.KB</p>
+            <p>SG Futurum</p>
+            
+            <details class="source-details">
+                <summary>Zdroje</summary>
+                <div class="source-links">
+                    <a href="https://www.wikipedia.org" target="_blank">Wikipedia</a> |
+                    <a href="https://www.google.com" target="_blank">Google Fonts</a> |
+                    <a href="https://brainden.com/images/static1-big.jpg" target="_blank">Obrázok 1</a> |
+                    <a href="https://sciam.bynder.com/m/299f8a210f3d8098/original/mu-ller-lyer-illusion_graphic_d_TEXT.png" target="_blank">Obrázok 2</a> |
+                    <a href="https://www.verywellmind.com/thmb/pWc8H7wQdb9YX9rRAxNezWmeHbM=/4000x0/filters:no_upscale():max_bytes(150000):strip_icc()/muller-lyer-illusion-5672bd393df78ccc15f7d08d.jpg" target="_blank">Obrázok 3</a> |
+                    <a href="https://www.giannisarcone.com/3-MEDIA_Images/Dynamic_muller_lyer2B.gif" target="_blank">Obrázok 4</a> |
+                    <a href="https://www.syfy.com/sites/syfy/files/styles/scale_862/public/kitaoka_rotating_snakes.jpg" target="_blank">Obrázok 5</a> |
+                    <a href="https://www.syfy.com/sites/syfy/files/styles/scale_1280/public/rotatingsnakes_simple.jpg" target="_blank">Obrázok 6</a> |
+                    <a href="https://media.npr.org/assets/img/2014/03/24/color-rotsnake_custom-f5465210f04e30430602adf7e87083c1813df8f1.gif" target="_blank">Obrázok 7</a> |
+                    <a href="https://upload.wikimedia.org/wikipedia/commons/b/be/Checker_shadow_illusion.svg" target="_blank">Obrázok 8</a> |
+                    <a href="https://miro.medium.com/v2/resize:fit:1400/1*J4gh9x-fbKHjc9bLTArsEQ@2x.jpeg" target="_blank">Obrázok 9</a> |
+                    <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiDSHRX31gliOXDql3yGJqWtgJ31AqxcT8Ug&s" target="_blank">Obrázok 10</a> |
+                    <a href="https://upload.wikimedia.org/wikipedia/commons/c/c1/Penrose-dreieck.svg" target="_blank">Obrázok 11</a> |
+                    <a href="https://cdn.vectorstock.com/i/1000v/25/75/impossible-triangle-shape-optical-visual-illusion-vector-49492575.jpg" target="_blank">Obrázok 12</a> |
+                    <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDZwmcVI_jYLFtOTKEEz8101CRSwzIShzc5g&s" target="_blank">Obrázok 13</a> |
+                    <a href="https://www.cut-the-knot.org/Curriculum/Geometry/KanizsaTriangle.jpg" target="_blank">Obrázok 14</a> |
+                    <a href="https://a.storyblok.com/f/253271/214x216/f26b807b0c/45_kanizsa_fig1.png" target="_blank">Obrázok 15</a> |
+                    <a href="https://images.fineartamerica.com/images-medium-large/kanizsa-triangle-.jpg" target="_blank">Obrázok 16</a> |
+                    <a href="https://www.nationalworld.com/jpim-static/image/2023/06/14/16/NWLD-composite-illusion-km.jpg?width=1200&enable=upscale" target="_blank">Obrázok 17</a> |
+                    <a href="https://www.shutterstock.com/image-vector/ponzo-illusion-vector-graphic-optical-600w-2525569311.jpg" target="_blank">Obrázok 18</a> |
+                    <a href="https://www.appstate.edu/~steelekm/classes/psy3203/ponzo.gif" target="_blank">Obrázok 19</a> |
+                    <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZIJIaILX6xHWeHihuE6ufSgUlYF_Ha77mHg&s" target="_blank">Obrázok 20</a> |
+                    <a href="https://www.digitalfieldguide.com/wp-content/uploads/2021/11/Vase-or-Profile-Inversion.jpg" target="_blank">Obrázok 21</a> |
+                    <a href="https://media.istockphoto.com/id/999160012/vector/rubin-vase-optical-illusion.jpg?s=612x612&w=0&k=20&c=bdApQjBFlNWYJjPaiZ6xQDVWIEffwKeCB-xjBgiFRFA=" target="_blank">Obrázok 22</a> |
+                    <a href="https://www.cut-the-knot.org/Curriculum/Geometry/ZolnerIllusion.jpg" alt="Zöllner 1" target="_blank">Obrázok 23</a> |
+                    <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUPaQVco5EfVOH-Qwkn2i5v1XtQ_toknEJpQ&s" target="_blank">Obrázok 24</a> |
+                    <a href="https://www.abc-people.com/illusion/classic-6-5.gif" alt="Zöllner 3" target="_blank">Obrázok 25</a> |
+                    <a href="https://how-emotions-are-made.com/w/images/heam/b/b7/M%C3%BCller-Lyer_illusion.png" target="_blank">Obrázok 26</a> |
+                    <a href="https://w0.peakpx.com/wallpaper/957/389/HD-wallpaper-moving-snakes-snakes-optical-illusion-moving-circles-illusion.jpg" target="_blank">Obrázok 27</a> |
+                    <a href="https://img.jagranjosh.com/images/2025/09/25/article/image/checker-shadow-illusion-iq-test-optical-illusions-with-answer-1758782368107.webp" target="_blank">Obrázok 28</a> |
+                    <a href="https://easydrawingguides.com/wp-content/uploads/2018/09/Impossible-Triangle-10.png" target="_blank">Obrázok 29</a>
+                </div>
+            </details>
+        </div>
+    </footer>
+
+</body>
+</html>
